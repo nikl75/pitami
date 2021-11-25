@@ -8,6 +8,12 @@ const int potiPin03 = A3;
 
 // -------------------------------------------------------- //
 
+// poti pin zum lesen setzen 
+const int potiPin = A0;
+float sensorwert = 0; //Variable für den Sensorwert mit 0 als Startwert
+
+// -------------------------------------------------------- //
+
 void setup()
 {
   // Seriellen Monitor starten

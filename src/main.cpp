@@ -2,8 +2,10 @@
 #include <LiquidCrystal.h>
 #include <Wire.h> // für LiquidCrystal
 #include <AccelStepper.h>
+#include <string.h>
+#include <math.h>
 
-// neues lcd initialisieren und pins setzen --------------------------------------------------------//
+// neues lcd initialisieren und pins setzen
 LiquidCrystal mlcd(14, 15, 16, 17, 18, 19);
 
 // pin stepper setzen
@@ -11,8 +13,17 @@ LiquidCrystal mlcd(14, 15, 16, 17, 18, 19);
 #define STEPPER_01_DIR 4
 AccelStepper mStepper01(AccelStepper::DRIVER, STEPPER_01_ST, STEPPER_01_DIR);
 
+// poti pin zum lesen setzen 
+const int potiPin = A0;
+float sensorwert = 0; //Variable für den Sensorwert mit 0 als Startwert
+
+// -------------------------------------------------------- //
+
 void setup()
 {
+  // Seriellen Monitor starten
+  Serial.begin(9600);
+
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(LED_BUILTIN, OUTPUT);
 
@@ -38,6 +49,11 @@ void printLCD()
   mlcd.setCursor(0, 0);
   mlcd.print("STEP"); // write on lcd
 }
+void printS(String content){
+
+  Serial.println(content);
+}
+
 
 // the loop function runs over and over again forever
 void loop()
@@ -47,4 +63,12 @@ void loop()
   {
     resetStepSet();
   }
+  sensorwert = analogRead(potiPin)*100000;
+  Serial.print(sensorwert/100000);
+  Serial.print(" |  1/4: ");
+  Serial.print(pow(sensorwert, 1/4.)*100);
+  Serial.print(" |  1/32: ");
+  Serial.print(pow(sensorwert, 1/32.)*100);
+  Serial.print(" |  best: ");
+  Serial.println(pow(sensorwert, 1/64.)*100-119);
 }

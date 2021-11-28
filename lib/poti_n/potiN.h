@@ -5,9 +5,16 @@ class potiN {
   
   private:
     byte pin;
+    float rangeMin;
+    float rangeMax;
+    float rangeDelta;
+    float rangeRatio;
+    float potiMin;
+    float potiMax;
+    void setRangeRatio();
     
   public:
-    potiN(byte pin);
+    potiN(byte tPin, float tRangeMin, float tRangeMax);
     void init();
     float get();
 };
